@@ -52,7 +52,7 @@ export default class Animator extends Component {
     if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.upPosition) {
       // this._transitionTo(this.props.downPosition, this.props.onCollapsed);
     } else if (gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
-      // this._transitionTo(this.props.upPosition, this.props.onExpanded);
+      this._transitionTo(this.props.upPosition, this.props.onExpanded);
     } else if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
       if (!this.props.downPosition) {
         return
