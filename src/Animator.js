@@ -62,7 +62,7 @@ export default class Animator extends Component {
       if (!this.props.downPosition) {
         return
       }
-      // this._transitionTo(this.props.downPosition, this.props.onCollapsed);
+      this._transitionTo(this.props.downPosition, this.props.onCollapsed);
     }
     else {
       this._resetPosition();
