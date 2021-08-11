@@ -9,7 +9,7 @@ import Animator from './Animator';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-export default class BottomDrawer extends Component{
+export default class BottomDrawer extends Component {
   static propTypes = {
     /**
      * Height of the drawer.
@@ -101,19 +101,19 @@ export default class BottomDrawer extends Component{
     borderTopRightRadius: 0,
     roundedEdges: true,
     shadow: true,
-    onExpanded: () => {},
-    onCollapsed: () => {},
+    onExpanded: () => { },
+    onCollapsed: () => { },
     alldownDisplay: 0
   }
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     /**
      * TOGGLE_THRESHOLD is how much the user has to swipe the drawer
      * before its position changes between up / down.
      */
-    this.TOGGLE_THRESHOLD = this.props.containerHeight / 11;
+    // this.TOGGLE_THRESHOLD = this.props.containerHeight / 11;
     this.DOWN_DISPLAY = this.props.downDisplay || this.props.containerHeight / 1.5;
 
     /**
@@ -122,40 +122,41 @@ export default class BottomDrawer extends Component{
      */
     this.UP_POSITION = this._calculateUpPosition(SCREEN_HEIGHT, this.props.containerHeight, this.props.offset)
     this.DOWN_POSITION = this._calculateDownPosition(this.UP_POSITION, this.DOWN_DISPLAY)
-    this.ALL_DOWN_POSITION = {x:0, y:this.props.alldownDisplay}
+    this.ALL_DOWN_POSITION = { x: 0, y: this.props.alldownDisplay }
 
     this.state = { currentPosition: this.props.startUp ? this.UP_POSITION : this.DOWN_POSITION };
   }
 
   render() {
     return (
-        <Animator
-            currentPosition = {this.state.currentPosition}
-            setCurrentPosition = {(position) => this.setCurrentPosition(position)}
-            toggleThreshold = {this.TOGGLE_THRESHOLD}
-            upPosition = {this.UP_POSITION}
-            downPosition = {this.DOWN_POSITION}
-            roundedEdges = {this.props.roundedEdges}
-            shadow = {this.props.shadow}
-            containerHeight = {this.props.containerHeight}
-            backgroundColor = {this.props.backgroundColor}
-            onExpanded = {() => this.props.onExpanded()}
-            onCollapsed = {() => this.props.onCollapsed()}
-            alldownPosition = {this.ALL_DOWN_POSITION}
-        >
-          {this.props.children}
+      <Animator
+        currentPosition={this.state.currentPosition}
+        setCurrentPosition={(position) => this.setCurrentPosition(position)}
+        // toggleThreshold = {this.TOGGLE_THRESHOLD}
+        upPosition={this.UP_POSITION}
+        downPosition={this.DOWN_POSITION}
+        roundedEdges={this.props.roundedEdges}
+        shadow={this.props.shadow}
+        containerHeight={this.props.containerHeight}
+        backgroundColor={this.props.backgroundColor}
+        onExpanded={() => this.props.onExpanded()}
+        onCollapsed={() => this.props.onCollapsed()}
+        alldownPosition={this.ALL_DOWN_POSITION}
+      >
+        {this.props.children}
 
-          <View style={{height: Math.sqrt(SCREEN_HEIGHT),
-            backgroundColor: this.props.backgroundColor,
-            borderRadius: this.props.borderRadius,
-            borderBottomLeftRadius: this.props.borderBottomLeftRadius,
-            borderBottomRightRadius: this.props.borderBottomRightRadius,
-            borderTopLeftRadius: this.props.borderTopLeftRadius,
-            borderTopRightRadius: this.props.borderTopRightRadius,
-          }}
+        <View style={{
+          height: Math.sqrt(SCREEN_HEIGHT),
+          backgroundColor: this.props.backgroundColor,
+          borderRadius: this.props.borderRadius,
+          borderBottomLeftRadius: this.props.borderBottomLeftRadius,
+          borderBottomRightRadius: this.props.borderBottomRightRadius,
+          borderTopLeftRadius: this.props.borderTopLeftRadius,
+          borderTopRightRadius: this.props.borderTopRightRadius,
+        }}
 
-          />
-        </Animator>
+        />
+      </Animator>
     )
   }
 

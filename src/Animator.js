@@ -9,8 +9,8 @@ import {
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default class Animator extends Component{
-  constructor(props){
+export default class Animator extends Component {
+  constructor(props) {
     super(props);
 
     this.position = new Animated.ValueXY(this.props.currentPosition);
@@ -18,56 +18,56 @@ export default class Animator extends Component{
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: this._handlePanResponderMove,
-      onPanResponderRelease: this._handlePanResponderRelease
+      // onPanResponderRelease: this._handlePanResponderRelease
     });
   }
 
   render() {
     return (
-        <Animated.View
-            style={[
-              {...this.position.getLayout(), left: 0},
-              StyleSheet.flatten([
-                styles.animationContainer(this.props.containerHeight, this.props.backgroundColor),
-                styles.roundedEdges(this.props.roundedEdges),
-                styles.shadow(this.props.shadow),
-              ])
-            ]}
-            {...this._panResponder.panHandlers}
-        >
-          {this.props.children}
-        </Animated.View>
+      <Animated.View
+        style={[
+          { ...this.position.getLayout(), left: 0 },
+          StyleSheet.flatten([
+            styles.animationContainer(this.props.containerHeight, this.props.backgroundColor),
+            styles.roundedEdges(this.props.roundedEdges),
+            styles.shadow(this.props.shadow),
+          ])
+        ]}
+        {...this._panResponder.panHandlers}
+      >
+        {this.props.children}
+      </Animated.View>
     )
   }
 
   _handlePanResponderMove = (e, gesture) => {
     if (this._swipeInBounds(gesture)) {
-      this.position.setValue({x: 0, y: this.props.currentPosition.y + gesture.dy });
+      this.position.setValue({ x: 0, y: this.props.currentPosition.y + gesture.dy });
     } else {
-      this.position.setValue({x: 0, y: this.props.upPosition.y - this._calculateEase(gesture) });
+      this.position.setValue({ x: 0, y: this.props.upPosition.y - this._calculateEase(gesture) });
     }
   }
 
-  _handlePanResponderRelease = (e, gesture) => {
-    if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.upPosition) {
-      this._transitionTo(this.props.downPosition, this.props.onCollapsed);
-    } else if (gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
-      this._transitionTo(this.props.upPosition, this.props.onExpanded);
-    }else if(gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition){
-      if(!this.props.downPosition){
-        return
-      }
-      this._transitionTo(this.props.alldownPosition, this.props.onCollapsed);
-    }else if(gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.alldownPosition){
-      if(!this.props.downPosition){
-        return
-      }
-      this._transitionTo(this.props.downPosition, this.props.onCollapsed);
-    }
-    else {
-      this._resetPosition();
-    }
-  }
+  // _handlePanResponderRelease = (e, gesture) => {
+  //   if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.upPosition) {
+  //     this._transitionTo(this.props.downPosition, this.props.onCollapsed);
+  //   } else if (gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
+  //     this._transitionTo(this.props.upPosition, this.props.onExpanded);
+  //   }else if(gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition){
+  //     if(!this.props.downPosition){
+  //       return
+  //     }
+  //     this._transitionTo(this.props.alldownPosition, this.props.onCollapsed);
+  //   }else if(gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.alldownPosition){
+  //     if(!this.props.downPosition){
+  //       return
+  //     }
+  //     this._transitionTo(this.props.downPosition, this.props.onCollapsed);
+  //   }
+  //   else {
+  //     this._resetPosition();
+  //   }
+  // }
 
   // returns true if the swipe is within the height of the drawer.
   _swipeInBounds(gesture) {
@@ -82,7 +82,7 @@ export default class Animator extends Component{
     Animated.spring(this.position, {
       toValue: position,
       useNativeDriver: false,
-    }).start();44
+    }).start(); 44
 
     this.props.setCurrentPosition(position);
     callback();
