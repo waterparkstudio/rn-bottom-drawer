@@ -113,7 +113,7 @@ export default class BottomDrawer extends Component {
      * TOGGLE_THRESHOLD is how much the user has to swipe the drawer
      * before its position changes between up / down.
      */
-    // this.TOGGLE_THRESHOLD = this.props.containerHeight / 11;
+    this.TOGGLE_THRESHOLD = this.props.containerHeight / 11;
     this.DOWN_DISPLAY = this.props.downDisplay || this.props.containerHeight / 1.5;
 
     /**
@@ -132,7 +132,7 @@ export default class BottomDrawer extends Component {
       <Animator
         currentPosition={this.state.currentPosition}
         setCurrentPosition={(position) => this.setCurrentPosition(position)}
-        // toggleThreshold = {this.TOGGLE_THRESHOLD}
+        toggleThreshold={this.TOGGLE_THRESHOLD}
         upPosition={this.UP_POSITION}
         downPosition={this.DOWN_POSITION}
         roundedEdges={this.props.roundedEdges}
