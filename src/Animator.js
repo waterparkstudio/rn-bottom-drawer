@@ -111,9 +111,9 @@ const styles = {
   },
   shadow: shadow => {
     return shadow === true && {
-      shadowColor: '#CECDCD',
-      shadowRadius: 3,
-      shadowOpacity: 5,
+      // shadowColor: '#CECDCD',
+      // shadowRadius: 3,
+      // shadowOpacity: 5,
     }
   },
 }
