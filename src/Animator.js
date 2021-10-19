@@ -1,10 +1,5 @@
-import React, { Component } from 'react';
-import {
-  PanResponder,
-  Animated,
-  Dimensions,
-  StyleSheet
-} from 'react-native';
+import React, {Component} from 'react';
+import {PanResponder, Animated, Dimensions, StyleSheet} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -18,7 +13,7 @@ export default class Animator extends Component {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: this._handlePanResponderMove,
-      onPanResponderRelease: this._handlePanResponderRelease
+      onPanResponderRelease: this._handlePanResponderRelease,
     });
   }
 
@@ -26,48 +21,67 @@ export default class Animator extends Component {
     return (
       <Animated.View
         style={[
-          { ...this.position.getLayout(), left: 0 },
+          {...this.position.getLayout(), left: 0},
           StyleSheet.flatten([
-            styles.animationContainer(this.props.containerHeight, this.props.backgroundColor),
+            styles.animationContainer(
+              this.props.containerHeight,
+              this.props.backgroundColor,
+            ),
             styles.roundedEdges(this.props.roundedEdges),
             styles.shadow(this.props.shadow),
-          ])
+          ]),
         ]}
-        {...this._panResponder.panHandlers}
-      >
+        {...this._panResponder.panHandlers}>
         {this.props.children}
       </Animated.View>
-    )
+    );
   }
 
   _handlePanResponderMove = (e, gesture) => {
     if (this._swipeInBounds(gesture)) {
-      this.position.setValue({ x: 0, y: this.props.currentPosition.y + gesture.dy });
+      this.position.setValue({
+        x: 0,
+        y: this.props.currentPosition.y + gesture.dy,
+      });
     } else {
-      this.position.setValue({ x: 0, y: this.props.upPosition.y - this._calculateEase(gesture) });
+      this.position.setValue({
+        x: 0,
+        y: this.props.upPosition.y - this._calculateEase(gesture),
+      });
     }
-  }
+  };
 
   _handlePanResponderRelease = (e, gesture) => {
-    if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.upPosition) {
+    if (
+      gesture.dy > this.props.toggleThreshold &&
+      this.props.currentPosition === this.props.upPosition
+    ) {
       this._transitionTo(this.props.downPosition, this.props.onCollapsed);
-    } else if (gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
+    } else if (
+      gesture.dy < -this.props.toggleThreshold &&
+      this.props.currentPosition === this.props.downPosition
+    ) {
       this._transitionTo(this.props.upPosition, this.props.onExpanded);
-    } else if (gesture.dy > this.props.toggleThreshold && this.props.currentPosition === this.props.downPosition) {
+    } else if (
+      gesture.dy > this.props.toggleThreshold &&
+      this.props.currentPosition === this.props.downPosition
+    ) {
       if (!this.props.downPosition) {
-        return
+        return;
       }
       // this._transitionTo(this.props.alldownPosition, this.props.onCollapsed);
-    } else if (gesture.dy < -this.props.toggleThreshold && this.props.currentPosition === this.props.alldownPosition) {
+    } else if (
+      gesture.dy < -this.props.toggleThreshold &&
+      this.props.currentPosition === this.props.alldownPosition
+    ) {
       if (!this.props.downPosition) {
-        return
+        return;
       }
       this._transitionTo(this.props.downPosition, this.props.onCollapsed);
-    }
-    else {
+    } else {
       this._resetPosition();
     }
-  }
+  };
 
   // returns true if the swipe is within the height of the drawer.
   _swipeInBounds(gesture) {
@@ -82,7 +96,8 @@ export default class Animator extends Component {
     Animated.spring(this.position, {
       toValue: position,
       useNativeDriver: false,
-    }).start(); 44
+    }).start();
+    44;
 
     this.props.setCurrentPosition(position);
     callback();
@@ -91,8 +106,16 @@ export default class Animator extends Component {
   _resetPosition() {
     Animated.spring(this.position, {
       toValue: this.props.currentPosition,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
+  }
+
+  sendToDown() {
+    this._transitionTo(this.props.downPosition, this.props.onCollapsed);
+  }
+
+  sendToUp() {
+    this._transitionTo(this.props.upPosition, this.props.onExpanded);
   }
 }
 
@@ -104,16 +127,21 @@ const styles = {
     backgroundColor: color,
   }),
   roundedEdges: rounded => {
-    return rounded === true && {
-      borderTopLeftRadius: 10,
-      borderTopRightRadius: 10,
-    }
+    return (
+      rounded === true && {
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+      }
+    );
   },
   shadow: shadow => {
-    return shadow === true && {
-      // shadowColor: '#CECDCD',
-      // shadowRadius: 3,
-      // shadowOpacity: 5,
-    }
+    return (
+      shadow === true &&
+      {
+        // shadowColor: '#CECDCD',
+        // shadowRadius: 3,
+        // shadowOpacity: 5,
+      }
+    );
   },
-}
+};
